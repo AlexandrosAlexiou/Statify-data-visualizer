@@ -1,0 +1,31 @@
+<mat-toolbar color="warn">
+  <div>
+    <a href=" "><img src="../favicon.png" class="logo"  alt="Statify logo"/></a>
+  </div>
+  <div>
+    <span routerLinkActive="active">
+      <button routerLink="/timeline" mat-raised-button class="ChartButton">
+        Timeline Chart
+      </button>
+    </span>
+    <span routerLinkActive="active">
+      <button routerLink="/bar" mat-raised-button class="ChartButton">
+        Bar Chart
+    </button>
+    </span>
+    <span routerLinkActive="active">
+      <button routerLink="/scatter" mat-raised-button class="ChartButton">
+        Scatter Plot
+      </button>
+    </span>
+    <span class="about">
+      <button mat-raised-button id="about">
+        About
+      </button>
+    </span>
+  </div>
+</mat-toolbar>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

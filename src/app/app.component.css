@@ -1,0 +1,19 @@
+.ChartButton{
+  margin-right: 1rem;
+  width: 50%;
+}
+
+.logo {
+  height: 58px;
+  margin-right: 20px;
+}
+
+.about {
+  position: absolute;
+  right: 10px;
+}
+
+button:hover{
+  background-color: darkgrey;
+}
+
