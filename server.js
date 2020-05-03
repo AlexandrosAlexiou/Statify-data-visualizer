@@ -106,6 +106,29 @@ server.route('/api/scatter-plot:values').get((req, res) => {
   });
 });
 
+server.route('/api/countries').get( (req,res) => {
+    let query = `select country_name from Countries;`;
+    con.query(query, (err,result) => {
+      if (err) throw err;
+      res.send({result})
+    })
+  });
+
+server.route('/api/indicators').get( (req,res) => {
+  let query = `select indicator_name from Indicators;`;
+  con.query(query, (err,result) => {
+    if (err) throw err;
+    res.send({result})
+  })
+});
+
+server.route('/api/spans').get( (req,res) => {
+  let query = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'years'`;
+  con.query(query, (err,result) => {
+    if (err) throw err;
+    res.send({result})
+  })
+});
 
 const port = process.env.PORT || 3000;
 server.listen(port, err => {

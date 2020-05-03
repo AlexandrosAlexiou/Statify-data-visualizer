@@ -1,4 +1,90 @@
-<body>
-<h1>timeline-chart works!</h1>
-</body>
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Timeline Chart</title>
+</head>
+
+<div *ngIf="!this.createGraph">
+  <mat-progress-bar mode="determinate" value="{{progressBarValue}}"></mat-progress-bar>
+  <mat-progress-bar mode="buffer" *ngIf="progress"></mat-progress-bar>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+
+    <mat-step [editable]="false" [completed]="step1">
+      <ng-template matStepLabel>Data selections process for timeline graph.</ng-template>
+      <br>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="getCountries(stepper)">Begin</button>
+      </div>
+    </mat-step>
+
+    <mat-step [editable]="false" [completed]="step2">
+      <ng-template matStepLabel>Select some Countries</ng-template>
+      <br>
+      <mat-form-field style="width: 30em">
+        <mat-select placeholder="Click here to select Countries" [formControl]="selectedCountries" multiple>
+          <mat-select-trigger>
+            {{selectedCountries.value ? selectedCountries.value[0] : ''}}
+            <span *ngIf="selectedCountries.value?.length > 1" class="additional-selection">
+            (+{{selectedCountries.value.length - 1}} {{selectedCountries.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-optgroup label="Countries">
+            <mat-option *ngFor="let country of Countries" [value]="country">
+              {{country}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <br><br>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="getIndicators(stepper)">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [editable]="false" [completed]="step3">
+      <ng-template matStepLabel>Select some Indicators</ng-template>
+      <br>
+      <mat-form-field style="width: 30em">
+        <mat-select placeholder="Click here to select Indicators" [formControl]="selectedIndicators" multiple>
+          <mat-optgroup label="Indicators">
+            <mat-option *ngFor="let indicator of Indicators" [value]="indicator">
+              {{indicator}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <br><br>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="getYearSpans(stepper)">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [editable]="false" [completed]="step3">
+      <ng-template matStepLabel>Select some Indicators</ng-template>
+      <br>
+      <mat-form-field style="width: 30em">
+        <mat-select placeholder="Click here to select years span" [formControl]="selectedYearSpans" [multiple]="false">
+          <mat-optgroup label="Spans">
+            <mat-option *ngFor="let span of YearSpans" [value]="span">
+              {{span}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="logSelections(stepper)">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <div>
+        <button mat-button mat-raised-button color="warn" style="margin:5px;">Create Graph!</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+
+</div>
+
+
+
 

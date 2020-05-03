@@ -4,5 +4,21 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
-  constructor() { }
+  serverBaseUrl = 'http://localhost:3000/api';
+
+  getAvailableCountries(){
+    const url = `${this.serverBaseUrl}/countries`;
+    return fetch(url);
+  }
+
+  getAvailableIndicators(){
+    const url = `${this.serverBaseUrl}/indicators`;
+    return fetch(url);
+  }
+
+  getAvailableYearSpans(){
+    const url = `${this.serverBaseUrl}/spans`;
+    return fetch(url);
+  }
 }
+
