@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from './shared/data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RoutingModule } from './routing/routing.module';
+import { LineChartModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RoutingModule } from './routing/routing.module';
     RoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LineChartModule
   ],
   providers: [
     DataService

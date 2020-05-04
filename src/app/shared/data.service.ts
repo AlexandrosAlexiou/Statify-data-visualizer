@@ -16,9 +16,18 @@ export class DataService {
     return fetch(url);
   }
 
-  getAvailableYearSpans(){
-    const url = `${this.serverBaseUrl}/spans`;
+  getAvailableFiveYearSpans(){
+    const url = `${this.serverBaseUrl}/spanfives`;
+    return fetch(url);
+  }
+
+  getAvailableTenYearSpans(){
+    const url = `${this.serverBaseUrl}/spantens`;
+    return fetch(url);
+  }
+
+  getAvailableTwentyYearSpans(){
+    const url = `${this.serverBaseUrl}/spantwenties`;
     return fetch(url);
   }
 }
-

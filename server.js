@@ -5,6 +5,7 @@ const cors = require('cors');
 const logger = require('./middleware/logger');
 
 server.use(cors());
+server.use(logger);
 
 const con = mysql.createConnection({
   host: "localhost",
@@ -18,7 +19,6 @@ con.connect(err => {
   console.log(`[UPDATE]:Server is now connected with MySQL.`);
 });
 
-server.use(logger);
 
 server.route('/api/timeline-chart:values').get((req, res) => {
   let values = req.params['values'];
@@ -106,6 +106,7 @@ server.route('/api/scatter-plot:values').get((req, res) => {
   });
 });
 
+
 server.route('/api/countries').get( (req,res) => {
     let query = `select country_name from Countries;`;
     con.query(query, (err,result) => {
@@ -113,6 +114,7 @@ server.route('/api/countries').get( (req,res) => {
       res.send({result})
     })
   });
+
 
 server.route('/api/indicators').get( (req,res) => {
   let query = `select indicator_name from Indicators;`;
@@ -122,13 +124,33 @@ server.route('/api/indicators').get( (req,res) => {
   })
 });
 
-server.route('/api/spans').get( (req,res) => {
-  let query = `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'years'`;
+
+server.route('/api/spanfives').get( (req,res) => {
+  let query = `select DISTINCT years.five_yr_period from years`;
   con.query(query, (err,result) => {
     if (err) throw err;
     res.send({result})
   })
 });
+
+
+server.route('/api/spantens').get( (req,res) => {
+  let query = `select DISTINCT years.ten_yr_period from years`;
+  con.query(query, (err,result) => {
+    if (err) throw err;
+    res.send({result})
+  })
+});
+
+
+server.route('/api/spantwenties').get( (req,res) => {
+  let query = `select DISTINCT years.twenty_yr_period from years`;
+  con.query(query, (err,result) => {
+    if (err) throw err;
+    res.send({result})
+  })
+});
+
 
 const port = process.env.PORT || 3000;
 server.listen(port, err => {
@@ -136,7 +158,7 @@ server.listen(port, err => {
     return console.log(err)
   }
   console.log(`[UPDATE]:Listening on port ${port}...`);
-  console.log(`Timeline queries at: http://localhost:3000/api/timeline-chart:GRC+SP.POP.2024.FE.5Y+2000-2004+5yr_period`);
-  console.log(`Barchart queries at: http://localhost:3000/api/bar-chart:GRC+SP.POP.2024.FE.5Y+2000-2004+5yr_period`);
-  console.log(`Scatterplot queries at: http://localhost:3000/api/scatter-plot:GRC+SP.POP.2024.FE.5Y+2000-2004+5yr_period`);
+  // console.log(`Timeline queries at: http://localhost:3000/api/timeline-chart:GRC+SP.POP.2024.FE.5Y+2000-2004+five_yr_period`);
+  // console.log(`Bar queries at: http://localhost:3000/api/bar-chart:GRC+SP.POP.2024.FE.5Y+2000-2004+ten_yr_period`);
+  // console.log(`Scatter queries at: http://localhost:3000/api/scatter-plot:GRC+SP.POP.2024.FE.5Y+2000-2019+twenty_yr_period`);
 });

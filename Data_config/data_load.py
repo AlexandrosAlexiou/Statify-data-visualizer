@@ -31,9 +31,9 @@ def create_database():
         print("Created indicators table.")
 
         cursor.execute("""CREATE TABLE `years` (`year` int NOT NULL,
-                                                `5yr_period` varchar(100) NOT NULL,
-                                                `10yr_period` varchar(100) NOT NULL,
-                                                `20yr_period` varchar(100) NOT NULL,
+                                                `five_yr_period` varchar(100) NOT NULL,
+                                                `ten_yr_period` varchar(100) NOT NULL,
+                                                `twenty_yr_period` varchar(100) NOT NULL,
                                                 PRIMARY KEY (`year`))
                                                 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;""")
         print("Created years table.")

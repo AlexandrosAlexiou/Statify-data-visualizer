@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { MaterialModule } from '../material/material.module';
+import { FormControl } from '@angular/forms';
 import { DataService } from '../shared/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Countries {
   country_name: string;
@@ -10,8 +10,21 @@ interface Indicators {
   indicator_name: string;
 }
 interface YearSpans {
-  COLUMN_NAME: string;
+  five_yr_period: string;
+  ten_yr_period?: string;
+  twenty_yr_period?: string;
 }
+
+export interface Multi {
+  name: string;
+  series: ValueKeyPair[];
+}
+
+export interface ValueKeyPair{
+  name: string;
+  value: number;
+}
+
 @Component({
   selector: 'app-timeline-chart',
   templateUrl: './timeline-chart.component.html',
@@ -27,11 +40,32 @@ export class TimelineChartComponent{
   step3 = false;
   Countries = [];
   Indicators = [];
-  YearSpans = [];
+  FiveYearSpan = [];
+  TenYearSpan = [];
+  TwentyYearSpan = [];
   selectedCountries = new FormControl();
   selectedIndicators = new FormControl();
-  selectedYearSpans = new FormControl();
-  constructor( private dataService: DataService, private formBuilder: FormBuilder) {}
+  selectedYearSpan = new FormControl();
+  GraphDataFormat: Multi[] = [];
+
+  // Graph options
+  view: any[] = [700, 300];
+  legend = true;
+  showLabels = true;
+  animations = true;
+  xAxis = true;
+  yAxis = true;
+  showYAxisLabel = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Year';
+  yAxisLabel: string;
+  timeline = true;
+  colorScheme = {
+    domain: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080',
+      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080',]
+  };
+
+  constructor( private dataService: DataService, private snackBar: MatSnackBar) {}
 
   async getCountries(stepper){
     this.step1 = true;
@@ -51,6 +85,14 @@ export class TimelineChartComponent{
   async getIndicators(stepper){
     this.step2 = true;
     this.progress = true;
+    if (this.selectedCountries.value === null || this.selectedCountries.value.length === 0 ){
+      this.snackBar.open('Please select one or more Countries', 'Dismiss', {
+        duration: 3000,
+      });
+      this.progress = false;
+      this.step2 = false;
+      return;
+    }
     this.progressBarValue = 33;
     await this.dataService.getAvailableIndicators().then(response => response.json())
       .then(data => {
@@ -68,24 +110,52 @@ export class TimelineChartComponent{
   async getYearSpans(stepper){
     this.step3 = true;
     this.progress = true;
+    if (this.selectedIndicators.value === null || this.selectedIndicators.value.length === 0){
+      this.snackBar.open('Please select one or more Indicators', 'Dismiss', {
+        duration: 3000,
+      });
+      this.progress = false;
+      this.step3 = false;
+      return;
+    }
     this.progressBarValue = 66;
-    await this.dataService.getAvailableYearSpans().then(response => response.json())
+    await this.dataService.getAvailableFiveYearSpans().then(response => response.json())
       .then(data => {
         Object.entries(data.result).forEach( entry => {
           const spansObj = entry[1] as YearSpans;
-          this.YearSpans.push(spansObj.COLUMN_NAME);
+          this.FiveYearSpan.push(spansObj.five_yr_period);
         });
       }).catch(error => console.error(error));
-    this.YearSpans = this.YearSpans.filter(column => column !== 'year');
+    await this.dataService.getAvailableTenYearSpans().then(response => response.json())
+      .then(data => {
+        Object.entries(data.result).forEach( entry => {
+          const spansObj = entry[1] as YearSpans;
+          this.TenYearSpan.push(spansObj.ten_yr_period);
+        });
+      }).catch(error => console.error(error));
+    await this.dataService.getAvailableTwentyYearSpans().then(response => response.json())
+      .then(data => {
+        Object.entries(data.result).forEach( entry => {
+          const spansObj = entry[1] as YearSpans;
+          this.TwentyYearSpan.push(spansObj.twenty_yr_period);
+        });
+      }).catch(error => console.error(error));
     this.progress = false;
     stepper.next();
   }
 
-  logSelections(stepper){
+  checkSelections(stepper){
+    if (this.selectedYearSpan.value === null){
+      this.snackBar.open('Please select a years span', 'Dismiss', {
+        duration: 3000,
+      });
+      this.progress = false;
+      return;
+    }
     this.progressBarValue = 100;
-    console.log(this.selectedYearSpans.value);
-    console.log(this.selectedIndicators.value);
     console.log(this.selectedCountries.value);
+    console.log(this.selectedIndicators.value);
+    console.log(this.selectedYearSpan.value);
     stepper.next();
   }
 }
