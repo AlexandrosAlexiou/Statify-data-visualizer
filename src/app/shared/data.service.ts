@@ -32,7 +32,7 @@ export class DataService {
   }
 
   getIndicatorCode(ind){
-    const url = `${this.serverBaseUrl}/indicator_name:${ind}`;
+    const url = `${this.serverBaseUrl}/indicator_code:${ind}`;
     return fetch(url);
   }
 

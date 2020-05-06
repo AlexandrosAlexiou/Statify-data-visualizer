@@ -14,7 +14,7 @@ xl__files = {
     'Switzerland': 'Data/API_CHE_DS2_en_excel_v2_1011017.xlsx',
     'Sweden': 'Data/API_SWE_DS2_en_excel_v2_825541.xlsx',
     'Turkey': 'Data/API_TUR_DS2_en_excel_v2_821151.xlsx',
-    'United Kingdom': 'Data/API_GBR_DS2_en_excel_v2_825475.xlsx'
+    'United States': 'Data/API_USA_DS2_en_excel_v2_996440.xlsx'
 }
 five_year_period   = ['1960-1964', '1965-1969', '1970-1974', '1975-1979', '1980-1984', '1985-1989',
                     '1990-1994', '1995-1999', '2000-2004', '2005-2009', '2010-2014', '2015-2019']
@@ -57,26 +57,25 @@ def create_measurements_xl_file():
                     c2.value == 'EG.ELC.FOSL.ZS' or c2.value == 'MS.MIL.XPND.CD' or \
                     c2.value == 'NV.MNF.FBTO.ZS.UN' or c2.value == 'EN.URB.LCTY.UR.ZS':
                 for columns in range(5, 65):
-                    if ws1.cell(rows, columns).value is None:
-                      break
-                    # writing the read value to destination excel file
-                    ws2.cell(row, 1).value = c1.value
-                    ws2.cell(row, 2).value = str(c2.value)
+                    if ws1.cell(rows, columns).value is not None:
+                      # writing the read value to destination excel file
+                      ws2.cell(row, 1).value = c1.value
+                      ws2.cell(row, 2).value = str(c2.value)
 
-                    # reading year values from source excel file
-                    c3 = ws1.cell(4, columns)
+                      # reading year values from source excel file
+                      c3 = ws1.cell(4, columns)
 
-                    # writing years value to destination excel file
-                    ws2.cell(row, 3).value = c3.value
+                      # writing years value to destination excel file
+                      ws2.cell(row, 3).value = c3.value
 
-                    # reading measurement values from source excel file
-                    c4 = ws1.cell(rows, columns)
+                      # reading measurement values from source excel file
+                      c4 = ws1.cell(rows, columns)
 
-                    # writing measurement values to destination excel file
-                    ws2.cell(row, 4).value = c4.value
+                      # writing measurement values to destination excel file
+                      ws2.cell(row, 4).value = c4.value
 
-                    # destination file new row
-                    row += 1
+                      # destination file new row
+                      row += 1
     # saving the destination excel file
     wb2.save(str(output_xl_file))
 
