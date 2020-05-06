@@ -28,7 +28,7 @@ server.route('/api/timeline-chart:values').get((req, res) => {
   const indicator_code = values[1];
   const period_value =values[2];
   const period=values[3];
-  let query = `select measured.country_code,measured.Measurement,measured.year
+  let query = `select measured.country_code,measured.year,measured.measurement
     from(
             select years.year
             from years
@@ -108,7 +108,7 @@ server.route('/api/scatter-plot:values').get((req, res) => {
 
 
 server.route('/api/countries').get( (req,res) => {
-    let query = `select country_name from Countries;`;
+    let query = `select country_name from countries order by country_name;`;
     con.query(query, (err,result) => {
       if (err) throw err;
       res.send({result})
@@ -117,7 +117,7 @@ server.route('/api/countries').get( (req,res) => {
 
 
 server.route('/api/indicators').get( (req,res) => {
-  let query = `select indicator_name from Indicators;`;
+  let query = `select indicator_name from indicators;`;
   con.query(query, (err,result) => {
     if (err) throw err;
     res.send({result})
@@ -151,6 +151,27 @@ server.route('/api/spantwenties').get( (req,res) => {
   })
 });
 
+server.route('/api/indicator_name:indicator_name').get( (req,res) => {
+  let value = req.params['indicator_name'];
+  value = value.substring(1);
+  value = value.replace(/@/g, '%');
+  value = value.replace(/_/g, ' ');
+  let query = `select indicator_code from indicators where indicators.indicator_name = '${value}'`;
+  con.query(query, (err,result) => {
+    if (err) throw err;
+    res.send({result})
+  })
+});
+
+server.route('/api/country_code:country_name').get( (req,res) => {
+  let value = req.params['country_name'];
+  value = value.substring(1);
+  let query = `select country_code from countries where country_name = '${value}'`;
+  con.query(query, (err,result) => {
+    if (err) throw err;
+    res.send({result})
+  })
+});
 
 const port = process.env.PORT || 3000;
 server.listen(port, err => {

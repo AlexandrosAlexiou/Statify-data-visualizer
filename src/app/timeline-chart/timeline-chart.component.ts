@@ -24,7 +24,7 @@ export interface ValueKeyPair{
   name: string;
   value: number;
 }
-
+const Multi = [];
 @Component({
   selector: 'app-timeline-chart',
   templateUrl: './timeline-chart.component.html',
@@ -62,7 +62,7 @@ export class TimelineChartComponent{
   timeline = true;
   colorScheme = {
     domain: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080',
-      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080',]
+      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', ]
   };
 
   constructor( private dataService: DataService, private snackBar: MatSnackBar) {}
@@ -144,7 +144,8 @@ export class TimelineChartComponent{
     stepper.next();
   }
 
-  checkSelections(stepper){
+  async checkSelections(stepper){
+    this.progress = true;
     if (this.selectedYearSpan.value === null){
       this.snackBar.open('Please select a years span', 'Dismiss', {
         duration: 3000,
@@ -153,9 +154,40 @@ export class TimelineChartComponent{
       return;
     }
     this.progressBarValue = 100;
-    console.log(this.selectedCountries.value);
+    /*console.log(this.selectedCountries.value);
     console.log(this.selectedIndicators.value);
-    console.log(this.selectedYearSpan.value);
+    console.log(this.selectedYearSpan.value);*/
+    const diff = this.selectedYearSpan.value.split('-');
+    let yearSpanType: string;
+    if (diff[1] - diff[0] === 19){
+      yearSpanType = 'twenty_yr_period';
+    }else if (diff[1] - diff[0] === 9){
+      yearSpanType = 'ten_yr_period';
+    }else{
+      yearSpanType = 'five_yr_period';
+    }
+    const country = String(this.selectedCountries.value);
+    let indicatorName = String(this.selectedIndicators.value);
+    const yearSpan = String(this.selectedYearSpan.value);
+
+    let indicatorCode: string;
+    indicatorName = indicatorName.replace(/ /g, '_');
+    indicatorName = indicatorName.replace(/%/g, '@');
+    await this.dataService.getIndicatorCode(indicatorName)
+      .then(response => response.json()).then(data => {
+        indicatorCode = data.result[0].indicator_code;
+      } );
+    let countryCode: string;
+    await this.dataService.getCountryCode(country)
+      .then(response => response.json()).then(data => {
+        countryCode = data.result[0].country_code;
+      } );
+
+    await this.dataService.getFinalData(countryCode, indicatorCode, yearSpan, yearSpanType)
+      .then(response => response.json()).then(data => {
+        console.log(data.result);
+      });
+    this.progress = false;
     stepper.next();
   }
 }

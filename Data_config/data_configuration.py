@@ -6,15 +6,15 @@ import sys
 # Global variables
 xl__files = {
     'Austria': 'Data/API_AUT_DS2_en_excel_v2_827542.xlsx',
-    'China': 'Data/API_CHN_DS2_en_excel_v2_821577.xlsx',
     'Denmark': 'Data/API_DNK_DS2_en_excel_v2_825118.xlsx',
-    'United Kingdom': 'Data/API_GBR_DS2_en_excel_v2_825475.xlsx',
     'Greece': 'Data/API_GRC_DS2_en_excel_v2_827586.xlsx',
     'Italy': 'Data/API_ITA_DS2_en_excel_v2_827758.xlsx',
     'Japan': 'Data/API_JPN_DS2_en_excel_v2_822387.xlsx',
     'Korea': 'Data/API_KOR_DS2_en_excel_v2_823838.xlsx',
+    'Switzerland': 'Data/API_CHE_DS2_en_excel_v2_1011017.xlsx',
     'Sweden': 'Data/API_SWE_DS2_en_excel_v2_825541.xlsx',
-    'Turkey': 'Data/API_TUR_DS2_en_excel_v2_821151.xlsx'
+    'Turkey': 'Data/API_TUR_DS2_en_excel_v2_821151.xlsx',
+    'United Kingdom': 'Data/API_GBR_DS2_en_excel_v2_825475.xlsx'
 }
 five_year_period   = ['1960-1964', '1965-1969', '1970-1974', '1975-1979', '1980-1984', '1985-1989',
                     '1990-1994', '1995-1999', '2000-2004', '2005-2009', '2010-2014', '2015-2019']
@@ -57,6 +57,8 @@ def create_measurements_xl_file():
                     c2.value == 'EG.ELC.FOSL.ZS' or c2.value == 'MS.MIL.XPND.CD' or \
                     c2.value == 'NV.MNF.FBTO.ZS.UN' or c2.value == 'EN.URB.LCTY.UR.ZS':
                 for columns in range(5, 65):
+                    if ws1.cell(rows, columns).value is None:
+                      break
                     # writing the read value to destination excel file
                     ws2.cell(row, 1).value = c1.value
                     ws2.cell(row, 2).value = str(c2.value)
@@ -197,12 +199,13 @@ def convert_to_csv(filename):
 # Driver program
 def main():
 
-    print("Created countries.xlsx file. ")
+
     create_years_xl_file()
+    print("Created years.xlsx file. ")
     create_measurements_xl_file()
     print("Created measurements.xlsx file. ")
     create_countries_xl_file()
-    print("Created years.xlsx file. ")
+    print("Created countries.xlsx file. ")
     create_indicators_xl_file()
     print("Created indicators.xlsx file. ")
     convert_to_csv('countries')

@@ -44,7 +44,7 @@
       <ng-template matStepLabel>Select Indicator</ng-template>
       <br>
       <mat-form-field style="width: 34em">
-        <mat-select placeholder="Click here to select an Indicators" [formControl]="selectedIndicators" [multiple]="false">
+        <mat-select placeholder="Click here to select an indicator" [formControl]="selectedIndicators" [multiple]="false">
           <mat-optgroup label="Indicators">
             <mat-option *ngFor="let indicator of Indicators" [value]="indicator">
               {{indicator}}

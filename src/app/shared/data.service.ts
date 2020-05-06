@@ -30,4 +30,21 @@ export class DataService {
     const url = `${this.serverBaseUrl}/spantwenties`;
     return fetch(url);
   }
+
+  getIndicatorCode(ind){
+    const url = `${this.serverBaseUrl}/indicator_name:${ind}`;
+    return fetch(url);
+  }
+
+  getCountryCode(country){
+    const url = `${this.serverBaseUrl}/country_code:${country}`;
+    return fetch(url);
+  }
+
+  getFinalData(country, indicatorCode, yearSpan, yearSpanType ){
+    const url = `${this.serverBaseUrl}/timeline-chart:${country}+${indicatorCode}+${yearSpan}+${yearSpanType}`;
+    return fetch(url);
+  }
+
+
 }
