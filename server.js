@@ -28,7 +28,7 @@ server.route('/api/timeline-chart:values').get((req, res) => {
   const indicator_code = values[1];
   const period_value =values[2];
   const period=values[3];
-  let query = `select measured.country_code,measured.year,measured.measurement
+  let query = `select measured.year,measured.measurement
     from(
             select years.year
             from years

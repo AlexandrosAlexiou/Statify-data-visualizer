@@ -3,13 +3,13 @@
   <title>Timeline Chart</title>
 </head>
 
-<div *ngIf="!this.createGraph">
+<div *ngIf="!this.showGraph">
   <mat-progress-bar mode="determinate" value="{{progressBarValue}}"></mat-progress-bar>
   <mat-progress-bar mode="buffer" *ngIf="progress"></mat-progress-bar>
   <mat-vertical-stepper [linear]="isLinear" #stepper>
 
     <mat-step [editable]="false" [completed]="step1">
-      <ng-template matStepLabel>Data selection process for timeline graph.</ng-template>
+      <ng-template matStepLabel>Data selection steps for timeline graph.</ng-template>
       <br>
       <div>
         <button mat-button mat-raised-button color="warn" (click)="getCountries(stepper)">Begin</button>
@@ -81,20 +81,33 @@
         </mat-select>
       </mat-form-field>
       <div>
-        <button mat-button mat-raised-button color="warn" (click)="checkSelections(stepper)">Next</button>
+        <button mat-button mat-raised-button color="warn" (click)="prepareData(stepper)">Next</button>
       </div>
     </mat-step>
 
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <div>
-        <button mat-button mat-raised-button color="warn" style="margin:5px;">Create Graph!</button>
+        <button mat-button mat-raised-button color="warn" style="margin:5px" (click)="createGraph()">Create Graph!</button>
       </div>
     </mat-step>
   </mat-vertical-stepper>
 </div>
 
-
-
-
+<div *ngIf="this.showGraph">
+  <ngx-charts-line-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="this.GraphDataFormat"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [timeline]="timeline">
+  </ngx-charts-line-chart>
+</div>
 

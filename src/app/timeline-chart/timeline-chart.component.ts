@@ -24,14 +24,18 @@ export interface ValueKeyPair{
   name: string;
   value: number;
 }
-const Multi = [];
+
+interface DbKeyPair {
+  year: string;
+  measurement: number;
+}
 @Component({
   selector: 'app-timeline-chart',
   templateUrl: './timeline-chart.component.html',
   styleUrls: ['./timeline-chart.component.css']
 })
 export class TimelineChartComponent{
-  createGraph = false;
+  showGraph = false;
   progressBarValue = 1;
   progress = false;
   isLinear = true;
@@ -49,21 +53,21 @@ export class TimelineChartComponent{
   GraphDataFormat: Multi[] = [];
 
   // Graph options
-  view: any[] = [700, 300];
-  legend = true;
-  showLabels = true;
-  animations = true;
-  xAxis = true;
-  yAxis = true;
-  showYAxisLabel = true;
+  // Graph options
+  view: any[] = [2000, 1000];
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
   showXAxisLabel = true;
   xAxisLabel = 'Year';
-  yAxisLabel: string;
+  showYAxisLabel = true;
   timeline = true;
   colorScheme = {
     domain: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080',
-      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', ]
+      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080',]
   };
+  yAxisLabel: string;
 
   constructor( private dataService: DataService, private snackBar: MatSnackBar) {}
 
@@ -144,7 +148,7 @@ export class TimelineChartComponent{
     stepper.next();
   }
 
-  async checkSelections(stepper){
+  async prepareData(stepper){
     this.progress = true;
     if (this.selectedYearSpan.value === null){
       this.snackBar.open('Please select a years span', 'Dismiss', {
@@ -166,28 +170,45 @@ export class TimelineChartComponent{
     }else{
       yearSpanType = 'five_yr_period';
     }
-    const country = String(this.selectedCountries.value);
-    let indicatorName = String(this.selectedIndicators.value);
+    const countries = this.selectedCountries.value;
+    const indicatorName = String(this.selectedIndicators.value);
     const yearSpan = String(this.selectedYearSpan.value);
-
+    console.log(countries);
     let indicatorCode: string;
-    indicatorName = indicatorName.replace(/ /g, '_');
-    indicatorName = indicatorName.replace(/%/g, '@');
-    await this.dataService.getIndicatorCode(indicatorName)
+    let indicatorNameFormattedForUrl: string;
+    indicatorNameFormattedForUrl = indicatorName.replace(/ /g, '_');
+    indicatorNameFormattedForUrl = indicatorName.replace(/%/g, '@');
+    await this.dataService.getIndicatorCode(indicatorNameFormattedForUrl)
       .then(response => response.json()).then(data => {
         indicatorCode = data.result[0].indicator_code;
       } );
-    let countryCode: string;
-    await this.dataService.getCountryCode(country)
-      .then(response => response.json()).then(data => {
-        countryCode = data.result[0].country_code;
-      } );
-
-    await this.dataService.getFinalData(countryCode, indicatorCode, yearSpan, yearSpanType)
-      .then(response => response.json()).then(data => {
-        console.log(data.result);
-      });
+    for ( const country of countries) {
+      let countryCode: string;
+      await this.dataService.getCountryCode(country)
+        .then(response => response.json()).then(data => {
+          countryCode = data.result[0].country_code;
+        });
+      await this.dataService.getFinalData(countryCode, indicatorCode, yearSpan, yearSpanType)
+        .then(response => response.json()).then(data => {
+          const result = data.result;
+          let graphData: Multi;
+          const seriesArray: ValueKeyPair[] = [];
+          Object.entries(result).forEach(entry => {
+            const spansObj = entry[1] as DbKeyPair;
+            const tempKeyPair: ValueKeyPair = ({name: String(spansObj.year), value: spansObj.measurement});
+            seriesArray.push(tempKeyPair);
+          });
+          graphData = ({name: country, series: seriesArray});
+          this.GraphDataFormat.push(graphData);
+          console.log(this.GraphDataFormat);
+        });
+    }
+    this.yAxisLabel = indicatorName;
     this.progress = false;
     stepper.next();
+  }
+
+  async createGraph(){
+    this.showGraph = true;
   }
 }
