@@ -37,7 +37,7 @@ export interface ValueKeyPair{
 })
 export class BarChartComponent{
   showGraph = false;
-  progressBarValue = 0;
+  progressBarValue = 1;
   progress = false;
   isLinear = true;
   step1 = false;
@@ -137,7 +137,7 @@ export class BarChartComponent{
     // console.log(this.TenYearSpan);
     // console.log(this.TwentyYearSpan);
     this.progress = false;
-    this.progressBarValue = 1;
+    this.progressBarValue = 3;
     stepper.next();
   }
 

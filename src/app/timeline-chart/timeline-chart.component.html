@@ -57,7 +57,7 @@
       </div>
     </mat-step>
 
-    <mat-step [editable]="false" [completed]="step3">
+    <mat-step [editable]="false" [completed]="step4">
       <ng-template matStepLabel>Select years span</ng-template>
       <br>
       <mat-form-field style="width: 30em">
@@ -84,7 +84,7 @@
       </div>
     </mat-step>
 
-    <mat-step>
+    <mat-step [editable]="false" [completed]="step5">
       <ng-template matStepLabel>Done</ng-template>
       <div>
         <button mat-button mat-raised-button color="warn" style="margin:5px" (click)="createGraph()">Create Graph!</button>

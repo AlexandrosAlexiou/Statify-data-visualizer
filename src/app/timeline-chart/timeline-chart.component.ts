@@ -21,12 +21,12 @@ export interface Multi {
 }
 
 export interface ValueKeyPair{
-  name: string;
+  name: number;
   value: number;
 }
 
 interface DbKeyPair {
-  year: string;
+  year: number;
   measurement: number;
 }
 @Component({
@@ -42,6 +42,8 @@ export class TimelineChartComponent{
   step1 = false;
   step2 = false;
   step3 = false;
+  step4 = false;
+  step5 = false;
   Countries = [];
   Indicators = [];
   FiveYearSpan = [];
@@ -150,10 +152,12 @@ export class TimelineChartComponent{
 
   async prepareData(stepper){
     this.progress = true;
+    this.step4 = true;
     if (this.selectedYearSpan.value === null){
       this.snackBar.open('Please select a years span', 'Dismiss', {
         duration: 3000,
       });
+      this.step4 = false;
       this.progress = false;
       return;
     }
@@ -195,7 +199,7 @@ export class TimelineChartComponent{
           const seriesArray: ValueKeyPair[] = [];
           Object.entries(result).forEach(entry => {
             const spansObj = entry[1] as DbKeyPair;
-            const tempKeyPair: ValueKeyPair = ({name: String(spansObj.year), value: spansObj.measurement});
+            const tempKeyPair: ValueKeyPair = ({name: spansObj.year, value: spansObj.measurement});
             seriesArray.push(tempKeyPair);
           });
           graphData = ({name: country, series: seriesArray});
@@ -209,6 +213,7 @@ export class TimelineChartComponent{
   }
 
   async createGraph(){
+    this.step5 = true;
     this.showGraph = true;
   }
 }

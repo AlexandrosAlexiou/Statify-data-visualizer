@@ -1,3 +1,112 @@
-<body>
-<h1>scatter-plot works!</h1>
-</body>
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Scatter-plot Chart</title>
+</head>
+
+<div *ngIf="!this.showGraph">
+  <mat-progress-bar mode="determinate" value="{{progressBarValue}}"></mat-progress-bar>
+  <mat-progress-bar mode="buffer" *ngIf="progress"></mat-progress-bar>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+
+    <mat-step [editable]="false" [completed]="step1">
+      <ng-template matStepLabel>Data selection steps for Scatter-plot graph.</ng-template>
+      <br>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="getCountries(stepper)">Begin</button>
+      </div>
+    </mat-step>
+
+    <mat-step [editable]="false" [completed]="step2">
+      <ng-template matStepLabel>Select one Country</ng-template>
+      <br>
+      <mat-form-field style="width: 30em">
+        <mat-select placeholder="Click here to select a country" [formControl]="selectedCountries" [multiple]="false">
+          <mat-select-trigger>
+            {{selectedCountries.value }}
+
+          </mat-select-trigger>
+          <mat-optgroup label="Countries">
+            <mat-option *ngFor="let country of Countries" [value]="country">
+              {{country}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <br><br>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="getIndicators(stepper)">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [editable]="false" [completed]="step3">
+      <ng-template matStepLabel>Select two Indicators</ng-template>
+      <br>
+      <mat-form-field style="width: 34em">
+        <mat-select placeholder="Click here to select two indicators" [formControl]="selectedIndicators" [multiple]="true">
+          <mat-optgroup label="Indicators">
+            <mat-option *ngFor="let indicator of Indicators" [value]="indicator">
+              {{indicator}}
+
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <br><br>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="getYearSpans(stepper)">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [editable]="false" [completed]="step3">
+      <ng-template matStepLabel>Select years span</ng-template>
+      <br>
+      <mat-form-field style="width: 30em">
+        <mat-select placeholder="Click here to select years span" [formControl]="selectedYearSpan" [multiple]="false">
+          <mat-optgroup label="Five year span">
+            <mat-option *ngFor="let span of FiveYearSpan" [value]="span">
+              {{span}}
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Ten year span">
+            <mat-option *ngFor="let span of TenYearSpan" [value]="span">
+              {{span}}
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Twenty year span">
+            <mat-option *ngFor="let span of TwentyYearSpan" [value]="span">
+              {{span}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button mat-raised-button color="warn" (click)="prepareData(stepper)">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <div>
+        <button mat-button mat-raised-button color="warn" style="margin:5px" >Create Graph!</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+
+</div>
+<div *ngIf="this.showGraph">
+  <ngx-charts-bubble-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="this.GraphDataFormat"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel">
+  </ngx-charts-bubble-chart>
+</div>
+
+
+
