@@ -39,10 +39,10 @@
     </mat-step>
 
     <mat-step [editable]="false" [completed]="step3">
-      <ng-template matStepLabel>Select two Indicators</ng-template>
+      <ng-template matStepLabel>Select Indicators</ng-template>
       <br>
       <mat-form-field style="width: 34em">
-        <mat-select placeholder="Click here to select two indicators" [formControl]="selectedIndicators" [multiple]="true">
+        <mat-select placeholder="Click here to select indicators" [formControl]="selectedIndicators" [multiple]="true">
           <mat-optgroup label="Indicators">
             <mat-option *ngFor="let indicator of Indicators" [value]="indicator">
               {{indicator}}
@@ -57,7 +57,7 @@
       </div>
     </mat-step>
 
-    <mat-step [editable]="false" [completed]="step3">
+    <mat-step [editable]="false" [completed]="step4">
       <ng-template matStepLabel>Select years span</ng-template>
       <br>
       <mat-form-field style="width: 30em">
@@ -87,12 +87,13 @@
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <div>
-        <button mat-button mat-raised-button color="warn" style="margin:5px" >Create Graph!</button>
+        <button mat-button mat-raised-button color="warn" style="margin:5px" (click)="createGraph()">Create Graph!</button>
       </div>
     </mat-step>
   </mat-vertical-stepper>
 
 </div>
+
 <div *ngIf="this.showGraph">
   <ngx-charts-bubble-chart
     [view]="view"
@@ -107,6 +108,7 @@
     [yAxisLabel]="yAxisLabel">
   </ngx-charts-bubble-chart>
 </div>
+
 
 
 

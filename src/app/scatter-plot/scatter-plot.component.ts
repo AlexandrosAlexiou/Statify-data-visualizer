@@ -3,8 +3,6 @@ import { FormControl } from '@angular/forms';
 import { DataService } from '../shared/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-
 interface Countries {
   country_name: string;
 }
@@ -21,13 +19,13 @@ export interface Multi {
   series: BubbleData[];
 }
 export interface ValueKeyPair{
-  year:number;
-  measurement:number;
+  year: number;
+  measurement: number;
 }
 
 export interface BubbleData{
-  name:string;
-  x:string;
+  name: string;
+  x: string;
   y: number;
   r: number;
 }
@@ -37,13 +35,14 @@ export interface BubbleData{
   styleUrls: ['./scatter-plot.component.css']
 })
 export class ScatterPlotComponent  {
-  showGraph = false;
   progressBarValue = 1;
   progress = false;
   isLinear = true;
   step1 = false;
   step2 = false;
   step3 = false;
+  step4 = false;
+  showGraph = false;
   Countries = [];
   Indicators = [];
   FiveYearSpan = [];
@@ -53,29 +52,29 @@ export class ScatterPlotComponent  {
   selectedIndicators = new FormControl();
   selectedYearSpan = new FormControl();
   GraphDataFormat: Multi[] = [];
-  createGraph = false;
-  // Graph options
-  view: any[] = [1900, 800];
+  view: any[] = [1800, 800];
+
+
+  // options
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Year';
+  yAxisLabel = '';
   showYAxisLabel = true;
-  timeline = true;
+  xAxisLabel = 'Years';
+  maxRadius = 20;
+  minRadius = 5;
+  yScaleMin = 70;
+  yScaleMax = 85;
+
   colorScheme = {
-    domain: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080',
-      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080',]
+    domain: ['#e6194b', '#7417d3', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080',
+      '#e6beff', '#1d999a', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', ]
   };
-  yAxisLabel: string;
-
-
 
   constructor(private dataService: DataService, private snackBar: MatSnackBar) {}
-
-
-
 
   async getCountries(stepper){
     this.step1 = true;
@@ -87,7 +86,6 @@ export class ScatterPlotComponent  {
           this.Countries.push(countriesObj.country_name);
         });
       }).catch(error => console.error(error));
-    // console.log(this.Countries);
     this.progress = false;
     stepper.next();
   }
@@ -111,17 +109,16 @@ export class ScatterPlotComponent  {
           this.Indicators.push(indicatorsObj.indicator_name);
         });
       }).catch(error => console.error(error));
-    // console.log(this.Countries);
+
     this.progress = false;
-    // console.log(this.Indicators);
     stepper.next();
   }
 
   async getYearSpans(stepper){
     this.step3 = true;
     this.progress = true;
-    if (this.selectedIndicators.value === null || this.selectedIndicators.value.length === 0|| this.selectedIndicators.value.length<2 ||this.selectedIndicators.value.length>2){
-      this.snackBar.open('Please select two Indicators', 'Dismiss', {
+    if (this.selectedIndicators.value === null || this.selectedIndicators.value.length === 0){
+      this.snackBar.open('Please Indicators', 'Dismiss', {
         duration: 3000,
       });
       this.progress = false;
@@ -156,17 +153,17 @@ export class ScatterPlotComponent  {
 
   async prepareData(stepper){
     this.progress = true;
+    this.step4 = true;
     if (this.selectedYearSpan.value === null){
       this.snackBar.open('Please select a years span', 'Dismiss', {
         duration: 3000,
       });
+      this.step4 = false;
       this.progress = false;
       return;
     }
     this.progressBarValue = 100;
-    /*console.log(this.selectedCountries.value);
-    console.log(this.selectedIndicators.value);
-    console.log(this.selectedYearSpan.value);*/
+
     const diff = this.selectedYearSpan.value.split('-');
     let yearSpanType: string;
     if (diff[1] - diff[0] === 19){
@@ -177,73 +174,61 @@ export class ScatterPlotComponent  {
       yearSpanType = 'five_yr_period';
     }
     const country = this.selectedCountries.value;
-    const indicatorName = String(this.selectedIndicators.value);
     const yearSpan = String(this.selectedYearSpan.value);
-    /*console.log(countries);
-    console.log(this.Indicators[0]);
-    console.log(this.Indicators[1]);
-    console.log(yearSpan);
-    */
-    let countryCode :string;
-    let indicatorCode:string;
-    let indicatorNameFormattedForUrl: string;
-    indicatorNameFormattedForUrl = this.Indicators[0].replace(/ /g, '_');
-    indicatorNameFormattedForUrl = this.Indicators[0].replace(/%/g, '@');
+
+    ///////////////////////////////////////
+    //
+    // Testing inputs before drawing graph
+    //
+    ///////////////////////////////////////
+
+    console.log(this.selectedCountries.value);
+    console.log(this.selectedIndicators.value);
+    console.log(this.selectedYearSpan.value);
+    console.log(yearSpanType);
+    console.log(this.selectedIndicators.value.length);
+
+
+    let countryCode: string;
+    let indicatorCode: string;
 
     await this.dataService.getCountryCode(country)
-      .then(response=>response.json()).then(data=>{
-        countryCode=data.result[0].country_code;
+      .then(response => response.json()).then(data => {
+        countryCode = data.result[0].country_code;
       });
     console.log(countryCode);
-
-    await this.dataService.getIndicatorCode(indicatorNameFormattedForUrl)
-      .then(response=>response.json()).then(data=>{
-        indicatorCode=data.result[0].indicator_code;
-      });
-    //console.log(indicatorCode);
-
-    await this.dataService.getFinalData(countryCode,indicatorCode,yearSpan,yearSpanType)
-      .then(response=>response.json()).then(data=>{
-        //console.log(data);
-        //get the other ind measurements,make multi ,make graph
-        const result=data.result;
-        let graphData :Multi;
-        const seriesArray:BubbleData []=[];
-        Object.entries(result).forEach(entry=>{
-          const temp=entry[1] as ValueKeyPair;
-          const tempbubble :BubbleData =({name:String(temp.year),x:String(temp.year),y:temp.measurement,r:temp.measurement});
-          seriesArray.push(tempbubble);
-
+    const indicatorsNumber = this.selectedIndicators.value.length;
+    for (let i = 0; i < indicatorsNumber; i++){
+      let indicatorNameFormattedForUrl: string;
+      indicatorNameFormattedForUrl = this.selectedIndicators.value[i].replace(/ /g, '_');
+      indicatorNameFormattedForUrl = this.selectedIndicators.value[i].replace(/%/g, '@');
+      await this.dataService.getIndicatorCode(indicatorNameFormattedForUrl)
+        .then(response => response.json()).then(data => {
+          indicatorCode = data.result[0].indicator_code;
         });
-        graphData=({name:indicatorCode,series:seriesArray});
-        this.GraphDataFormat.push(graphData);
-      });
 
+      await this.dataService.getFinalData(countryCode, indicatorCode, yearSpan, yearSpanType)
+        .then(response => response.json()).then(data => {
+          const result = data.result;
+          let graphData: Multi;
+          const seriesArray: BubbleData [] = [];
+          Object.entries(result).forEach(entry => {
+            const temp = entry[1] as ValueKeyPair;
+            const tempbubble: BubbleData = ({name: String(temp.year), x: String(temp.year), y: temp.measurement, r: temp.measurement});
+            seriesArray.push(tempbubble);
 
-    indicatorNameFormattedForUrl = this.Indicators[1].replace(/ /g, '_');
-    indicatorNameFormattedForUrl = this.Indicators[1].replace(/%/g, '@');
-    await this.dataService.getIndicatorCode(indicatorNameFormattedForUrl)
-      .then(response=>response.json()).then(data=>{
-        indicatorCode=data.result[0].indicator_code;
-      });
-
-    await this.dataService.getFinalData(countryCode,indicatorCode,yearSpan,yearSpanType)
-      .then(response=>response.json()).then(data=>{
-        const result=data.result;
-        let graphData :Multi;
-        const seriesArray:BubbleData []=[];
-        Object.entries(result).forEach(entry=>{
-          const temp=entry[1] as ValueKeyPair;
-          const tempbubble :BubbleData =({name:String(temp.year),x:String(temp.year),y:temp.measurement,r:temp.measurement});
-          seriesArray.push(tempbubble);
-
+          });
+          graphData = ({name: this.selectedIndicators.value[i], series: seriesArray});
+          this.GraphDataFormat.push(graphData);
         });
-        graphData=({name:indicatorCode,series:seriesArray});
-        this.GraphDataFormat.push(graphData);
-      });
-    console.log(this.GraphDataFormat);
 
+    }
+    this.yAxisLabel = this.selectedCountries.value;
     this.progress = false;
+    stepper.next();
+  }
+
+  createGraph(){
     this.showGraph = true;
   }
 
