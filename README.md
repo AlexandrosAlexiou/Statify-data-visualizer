@@ -6,7 +6,7 @@ To be able to answer interesting questions and recognize patterns, we need to or
 
 ## Setting up the application UI
 
-The application UI will be built [Angular Material](https://material.angular.io/guide/getting-started).
+The application UI is built using [Angular Material](https://material.angular.io/guide/getting-started).
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.<br/> The app will automatically reload if you change any of the source files.
