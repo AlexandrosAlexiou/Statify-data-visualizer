@@ -43,6 +43,8 @@ The API connects to the database and serves the data to our Angular app. <br/>
 
 - [express](https://www.npmjs.com/package/express) ( official website [here](https://expressjs.com/) )
 
+<br/>
+
 # Python scripts
 
 ## The data from the [World Bank](https://data.worldbank.org/country) were prepared accordingly to comply with the Database schema.

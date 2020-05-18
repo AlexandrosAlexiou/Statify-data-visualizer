@@ -41,11 +41,9 @@ server.route('/api/timeline-chart:values').get((req, res) => {
             where country_code=\'${country_code}\' AND indicator_code=\'${indicator_code}\'
         )as measured
     on wantedYears.year=measured.year order by measured.year`;
-  //debugger
   con.query(query, function (err, result) {
     if (err) throw err;
     res.send({result});
-    //console.log('[UPDATE]: values just transferred to the frontend server.')
   });
 });
 
@@ -73,7 +71,6 @@ server.route('/api/bar-chart:values').get((req, res) => {
   con.query(query, function (err, result) {
     if (err) throw err;
     res.send({result});
-    //console.log('[UPDATE]: values just transferred to the frontend server.')
   });
 });
 
@@ -102,7 +99,6 @@ server.route('/api/scatter-plot:values').get((req, res) => {
   con.query(query, function (err, result) {
     if (err) throw err;
     res.send({result});
-    //console.log('[UPDATE]: values just transferred to the frontend server.')
   });
 });
 
@@ -182,7 +178,4 @@ server.listen(port, err => {
     return console.log(err)
   }
   console.log(`[UPDATE]:Listening on port ${port}...`);
-  // console.log(`Timeline queries at: http://localhost:3000/api/timeline-chart:GRC+SP.POP.2024.FE.5Y+2000-2004+five_yr_period`);
-  // console.log(`Bar queries at: http://localhost:3000/api/bar-chart:GRC+SP.POP.2024.FE.5Y+2000-2004+ten_yr_period`);
-  // console.log(`Scatter queries at: http://localhost:3000/api/scatter-plot:GRC+SP.POP.2024.FE.5Y+2000-2019+twenty_yr_period`);
 });
