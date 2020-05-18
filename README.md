@@ -4,9 +4,11 @@ Developed for the Advanced Topics of Database Technology and Applications course
 We live in an age where we have more and more data around us, and it is becoming more and more difficult to use them. Simple queries are not enough anymore. Users must also be presented with interesting properties within the data.
 To be able to answer interesting questions and recognize patterns, we need to organize the data into a ( MySQL ) database and build an application around them!
 
-## Setting up the application UI
+## Application UI
 
-The application UI is built using [Angular Material](https://material.angular.io/guide/getting-started).
+The application UI is built using [Angular Material](https://material.angular.io/guide/getting-started).<br/>
+The charts were rendered using the [ngx-charts](https://github.com/swimlane/ngx-charts) framework.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.<br/> The app will automatically reload if you change any of the source files.
