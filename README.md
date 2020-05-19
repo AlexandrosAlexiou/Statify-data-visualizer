@@ -32,9 +32,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 <br/>
 
 
-# [Node.js](https://nodejs.org/en/download/) Rest API
+# [Node.js](https://nodejs.org/en/download/) REST API
 
 The API connects to the database and serves the data to our Angular app. <br/>
+
+Run `node server.js` to start the service.
 
 ## [npm](https://www.npmjs.com/) packages used
 - [mysql](https://www.npmjs.com/package/mysql)
@@ -50,7 +52,7 @@ The API connects to the database and serves the data to our Angular app. <br/>
 ## The data from the [World Bank](https://data.worldbank.org/country) were prepared accordingly to comply with the Database schema.
 Python makes things easier. Data loading, data configuration and database backup becomes a matter of seconds.<br/>
 Furthermore, adding more data to the Database later on is a few lines of code away. <br/>
-The app is scalable, the data selection process is automatically updated to comply with data additions ( countries, indicators etc.)
+The app is scalable, the data selection process is automatically updated to comply with data additions to the Database. ( countries, indicators etc.)
 
 ## packages used
 
