@@ -55,7 +55,6 @@ export class TimelineChartComponent{
   GraphDataFormat: Multi[] = [];
 
   // Graph options
-  // Graph options
   view: any[] = [1900, 1000];
   showXAxis = true;
   showYAxis = true;
@@ -67,7 +66,7 @@ export class TimelineChartComponent{
   timeline = true;
   colorScheme = {
     domain: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080',
-      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080',]
+      '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', ]
   };
   yAxisLabel: string;
 
@@ -162,9 +161,6 @@ export class TimelineChartComponent{
       return;
     }
     this.progressBarValue = 100;
-    /*console.log(this.selectedCountries.value);
-    console.log(this.selectedIndicators.value);
-    console.log(this.selectedYearSpan.value);*/
     const diff = this.selectedYearSpan.value.split('-');
     let yearSpanType: string;
     if (diff[1] - diff[0] === 19){
