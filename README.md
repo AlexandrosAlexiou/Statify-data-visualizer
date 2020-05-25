@@ -58,12 +58,19 @@ Furthermore, adding more data to the Database later on is a few lines of code aw
 The app is scalable, the data selection process is automatically updated to comply with data additions to the Database. ( countries, indicators etc.)
 
 ## ETL process diagrams
-![Transform](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/Transform.jpg) <br/>
+![Transform](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/Transform.jpg) 
 
-![Load](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/load.jpg) <br/>
+<br/>
 
-![Backup](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/backup.jpg) <br/>
-## packages used
+![Load](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/load.jpg) 
+
+<br/>
+
+![Backup](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/backup.jpg)
+
+<br/>
+
+## Python packages used
 
 - [PyMySQL](https://pypi.org/project/PyMySQL/)
 - [openpyxl](https://pypi.org/project/openpyxl/)
