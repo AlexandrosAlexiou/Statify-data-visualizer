@@ -9,6 +9,9 @@ To be able to answer interesting questions and recognize patterns, we need to or
 The application UI is built using [Angular Material](https://material.angular.io/guide/getting-started).<br/>
 The charts were rendered using the [ngx-charts](https://github.com/swimlane/ngx-charts) framework.
 
+## Application Diagram
+![Application Diagram](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/Statify-app-diagram.jpg)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.<br/> The app will automatically reload if you change any of the source files.
@@ -54,6 +57,12 @@ Python makes things easier. Data loading, data configuration and database backup
 Furthermore, adding more data to the Database later on is a few lines of code away. <br/>
 The app is scalable, the data selection process is automatically updated to comply with data additions to the Database. ( countries, indicators etc.)
 
+## ETL process diagrams
+![Transform](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/Transform.jpg)
+
+![Load](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/load.jpg)
+
+![Backup](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/backup.jpg)
 ## packages used
 
 - [PyMySQL](https://pypi.org/project/PyMySQL/)
