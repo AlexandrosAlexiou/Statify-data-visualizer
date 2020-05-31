@@ -48,6 +48,8 @@ Run `node server.js` to start the service.
 
 - [express](https://www.npmjs.com/package/express) ( official website [here](https://expressjs.com/) )
 
+- [moment](https://momentjs.com) (used in the logger middleware function)
+
 <br/>
 
 # Python scripts
