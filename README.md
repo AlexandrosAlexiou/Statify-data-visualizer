@@ -1,6 +1,8 @@
 # Statify
 Developed for the Advanced Topics of Database Technology and Applications course [@cs.uoi.gr](http://www.cs.uoi.gr/en/index.php?menu=m1)
-
+- Alexandros Alexiou 2929
+- Athanasios Krokos  3012
+- Andreas Matsias    3025 <br/><br/>
 We live in an age where we have more and more data around us, and it is becoming more and more difficult to use them. Simple queries are not enough anymore. Users must also be presented with interesting properties within the data.
 To be able to answer interesting questions and recognize patterns, we need to organize the data into a ( MySQL ) database and build an application around them!
 
