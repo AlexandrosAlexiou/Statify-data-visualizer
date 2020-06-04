@@ -1,11 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-#
+# .idea
 Data_config/.idea
 
-# data files
-*.csv
-*.xlsx
 
 # compiled output
 /dist
