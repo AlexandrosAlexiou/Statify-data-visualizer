@@ -41,7 +41,7 @@ def create_database():
         cursor.execute("""CREATE TABLE `measurements` ( `country_code` varchar(3) NOT NULL,
                                                         `indicator_code` varchar(50) NOT NULL,
                                                         `year` int NOT NULL,
-                                                        `measurement` DOUBLE,
+                                                        `measurement` varchar(50),
                                                         PRIMARY KEY (`country_code`,`indicator_code`,`year`),
                                                         KEY `indicator_code` (`indicator_code`),
                                                         KEY `year` (`year`),
