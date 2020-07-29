@@ -6,11 +6,12 @@ To be able to answer interesting questions and recognize patterns, we need to or
 
 ## Application UI
 
-The application UI is built using [Angular Material](https://material.angular.io/guide/getting-started).<br/>
-The charts were rendered using the [ngx-charts](https://github.com/swimlane/ngx-charts) framework.
+The application UI was built using [Angular Material](https://material.angular.io/guide/getting-started). <br>
+The charts were rendered using the [ngx-charts](https://github.com/swimlane/ngx-charts) framework. <br>
+![Sample Graph](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/sample-graph.png)
 
 ## Application Diagram
-![Application Diagram](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/Statify-app-diagram.jpg)
+![Application Diagram](https://github.com/AlexandrosAlexiou/Statify/blob/master/src/assets/Statify-app-diagram.svg)
 
 ## Development server
 
@@ -18,11 +19,11 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.<br/> The 
 
 ## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component.<br/> You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `ng generate component component-name` to generate a new component. <br> You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
-Run `ng build` to build the project.<br/> The build artifacts will be stored in the `dist/` directory.<br/> Use the `--prod` flag for a production build.
+Run `ng build` to build the project. <br> The build artifacts will be stored in the `dist/` directory. <br> Use the `--prod` flag for a production build.
 
 ## Running unit tests
 
@@ -37,7 +38,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 # [Node.js](https://nodejs.org/en/download/) REST API
 
-The API connects to the database and serves the data to our Angular app. <br/>
+The API connects to the database and serves the data to our Angular app. <br>
 
 Run `node server.js` to start the service.
 
