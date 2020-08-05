@@ -2,7 +2,7 @@ const express = require('express');
 const server = express();
 const mysql = require('mysql');
 const cors = require('cors');
-const logger = require('./middleware/logger');
+const logger = require('../middleware/logger');
 
 server.use(cors());
 server.use(logger);

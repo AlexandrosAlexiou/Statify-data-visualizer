@@ -13,6 +13,7 @@ Data_config/.idea
 
 # dependencies
 /node_modules
+api/node_modules
 
 # profiling files
 chrome-profiler-events*.json

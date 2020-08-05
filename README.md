@@ -40,7 +40,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 The API connects to the database and serves the data to our Angular app. <br>
 
-Run `node server.js` to start the service.
+Run `node server.js` to start the service. <br>
+
+v12.16.1
 
 ## [npm](https://www.npmjs.com/) packages used
 - [mysql](https://www.npmjs.com/package/mysql)
@@ -65,6 +67,6 @@ Run `node server.js` to start the service.
 
 ### Python packages used
 
-- [PyMySQL](https://pypi.org/project/PyMySQL/)
-- [openpyxl](https://pypi.org/project/openpyxl/)
+- [PyMySQL](https://pypi.org/project/PyMySQL/) (v0.9.3)
+- [openpyxl](https://pypi.org/project/openpyxl/) (v3.0.3)
 - [csv](https://docs.python.org/3/library/csv.html)
