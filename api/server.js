@@ -2,13 +2,13 @@ const express = require('express');
 const server = express();
 const mysql = require('mysql');
 const cors = require('cors');
-const logger = require('../middleware/logger');
+const logger = require('./middleware/logger');
 
 server.use(cors());
 server.use(logger);
 
 const con = mysql.createConnection({
-  host: "localhost",
+  host: "mysql",  // mysql is the docker service name, change to localhost if u are not running this with docker
   user: "root",
   password: "password",
   database: "StatisticsDB"
