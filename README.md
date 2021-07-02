@@ -37,7 +37,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 <br/>
 
 
-# [Node.js](https://nodejs.org/en/download/) REST API
+# [Node.js](https://nodejs.org/en/download/) API
 
 The API connects to the database and serves the data to our Angular app. <br>
 
