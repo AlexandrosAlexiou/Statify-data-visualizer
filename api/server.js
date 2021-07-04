@@ -4,14 +4,18 @@ const mysql = require('mysql');
 const cors = require('cors');
 const logger = require('./middleware/logger');
 
+const dotenv = require('dotenv').config()
+
+if (dotenv.error) throw dotenv.error;
+
 server.use(cors());
 server.use(logger);
 
 const con = mysql.createConnection({
-  host: "mysql",  // mysql is the docker service name, change to localhost if u are not running this with docker
-  user: "root",
-  password: "password",
-  database: "StatisticsDB"
+  host: process.env.DB_HOST_DOCKER,  // mysql is the docker service name, change to localhost if u are not running this with docker
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 con.connect(err => {

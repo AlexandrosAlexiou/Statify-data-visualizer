@@ -5,10 +5,10 @@ services:
       context: .
     image: statify/api
     environment:
-      - MYSQL_HOST=statify-mysql
-      - MYSQL_USER=user
-      - MYSQL_PASS=password
-      - MYSQL_DB=StatisticsDB
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASS=${DB_PASS}
+      - MYSQL_DB=${DB_NAME}
     ports:
       - "3000:3000"
     container_name: statify-nodejs-api
@@ -20,14 +20,14 @@ services:
     image: mysql
     ports:
       - "3306:3306"
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --secure-file-priv= --local-infile=1
     networks:
       - default
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=StatisticsDB
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
     volumes:
       - persistent:/var/lib/mysql
     container_name: statify-mysql
