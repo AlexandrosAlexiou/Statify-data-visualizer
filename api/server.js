@@ -1,28 +1,20 @@
 const express = require('express');
+const path = require('path');
 const server = express();
 const mysql = require('mysql');
 const cors = require('cors');
 const logger = require('./middleware/logger');
 
-const dotenv = require('dotenv').config()
-
-if (dotenv.error) throw dotenv.error;
-
-server.use(cors());
-server.use(logger);
-
-const con = mysql.createConnection({
-  host: process.env.DB_HOST_DOCKER,  // mysql is the docker service name, change to localhost if u are not running this with docker
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME
-});
+const mysql_conf = require('./mysql.conf');
+const con = mysql.createConnection(mysql_conf);
 
 con.connect(err => {
   if (err) throw err;
-  console.log(`[UPDATE]:Server is now connected with MySQL.`);
+  console.log(`[UPDATE]: Server is now connected with MySQL.`);
 });
 
+server.use(cors());
+server.use(logger);
 
 server.route('/api/timeline-chart:values').get((req, res) => {
   let values = req.params['values'];
@@ -57,7 +49,7 @@ server.route('/api/bar-chart:values').get((req, res) => {
   values = values.substring(1);
   values=values.split('+');
   const country_code = values[0];
-  const indicator_code = values[1];;
+  const indicator_code = values[1];
   const period_value = values[2];
   const period = values[3];
   let query = `select ind1.Measurement,wantedYears.year,ind1.country_code
@@ -173,11 +165,13 @@ server.route('/api/country_code:country_name').get( (req,res) => {
   })
 });
 
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') server.use('/', express.static(path.join(__dirname, 'public')));
 
 const port = process.env.PORT || 3000;
 server.listen(port, err => {
-  if(err){
+  if (err) {
     return console.log(err)
   }
-  console.log(`[UPDATE]:Listening on port ${port}...`);
+  console.log(`[UPDATE]: Listening on port ${port}...`);
 });
